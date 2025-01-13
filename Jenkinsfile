@@ -1,30 +1,23 @@
-pipeline {
-    agent {
-        docker {
-            image 'maven:3.9.0'
-            args '-v /root/.m2:/root/.m2'
-        }
-    }
-    stages {
+node {
+    // Menggunakan Docker dengan image Maven
+    docker.image('maven:3.9.0').inside('-v /root/.m2:/root/.m2') {
+
         stage('Build') {
-            steps {
-                sh 'mvn -B -DskipTests clean package'
-            }
+            // Tahap Build: Membersihkan dan mengemas aplikasi tanpa menjalankan tes
+            sh 'mvn -B -DskipTests clean package'
         }
+
         stage('Test') {
-            steps {
-                sh 'mvn test'
-            }
-            post {
-                always {
-                    junit 'target/surefire-reports/*.xml'
-                }
-            }
+            // Tahap Test: Menjalankan pengujian unit
+            sh 'mvn test'
+
+            // Selalu melakukan upload hasil pengujian setelah tahap Test selesai
+            junit 'target/surefire-reports/*.xml'
         }
+
         stage('Deliver') {
-            steps {
-                sh './jenkins/scripts/deliver.sh'
-            }
+            // Tahap Deliver: Menjalankan script untuk delivery aplikasi
+            sh './jenkins/scripts/deliver.sh'
         }
     }
 }
