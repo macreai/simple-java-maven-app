@@ -1,22 +1,19 @@
 node {
     docker.image('maven:3.9.0').inside('-v /root/.m2:/root/.m2') {
         stage('Build') {
-            dir('simple-java-maven-app') {
-                sh 'mvn -B -DskipTests clean package'
-            }
+            sh 'mvn install:install-file "-DgroupId=org.mozilla" "-DartifactId=jss" "-Dversion=4.2.5" "-Dpackaging=jar" "-Dfile=/path/to/jss-4.2.5.jar"'
+            sh 'mvn -B -DskipTests clean package'
         }
 
         stage('Test') {
-            dir('simple-java-maven-app') {
-                sh 'mvn test'
-                junit 'target/surefire-reports/*.xml'
-            }
+            sh 'mvn install:install-file "-DgroupId=org.mozilla" "-DartifactId=jss" "-Dversion=4.2.5" "-Dpackaging=jar" "-Dfile=/path/to/jss-4.2.5.jar"'
+            sh 'mvn test'
+            junit 'target/surefire-reports/*.xml'
         }
 
         stage('Deliver') {
-            dir('simple-java-maven-app') {
-                sh './jenkins/scripts/deliver.sh'
-            }
+            sh 'mvn install:install-file "-DgroupId=org.mozilla" "-DartifactId=jss" "-Dversion=4.2.5" "-Dpackaging=jar" "-Dfile=/path/to/jss-4.2.5.jar"'
+            sh './jenkins/scripts/deliver.sh'
         }
     }
 }
