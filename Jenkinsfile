@@ -1,4 +1,5 @@
 node {
+    checkout scm
     docker.image('maven:3-alpine').inside('-u root') {
         stage('Build') {
             sh 'mvn -B -DskipTests clean package'
