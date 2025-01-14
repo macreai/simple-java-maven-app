@@ -1,5 +1,4 @@
 node {
-    checkout scm
 
     docker.image('maven:3.9.2').inside("-v $WORKSPACE/.m2:/root/.m2") {
         stage('Check Maven Version') {
@@ -7,6 +6,7 @@ node {
         }
 
         stage('Build') {
+            checkout scm
             sh 'mvn -B -DskipTests clean package'
         }
 
