@@ -1,7 +1,7 @@
 node {
     checkout scm
 
-    docker.image('maven:3.9.2').inside('-v $WORKSPACE/.m2:/home/jenkins/.m2') {
+    docker.image('maven:3.9.2').inside("-v $WORKSPACE/.m2:/root/.m2") {
         stage('Check Maven Version') {
             sh 'mvn --version'
         }
