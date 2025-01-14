@@ -1,12 +1,6 @@
 node {
-
-    docker.image('maven:3.9.2').inside("-v $WORKSPACE/.m2:/root/.m2") {
-        stage('Check Maven Version') {
-            sh 'mvn --version'
-        }
-
+    docker.image('maven:3-alpine').inside('-u root') {
         stage('Build') {
-            checkout scm
             sh 'mvn -B -DskipTests clean package'
         }
 
