@@ -3,6 +3,7 @@ FROM maven:3.9.2-openjdk-17-slim AS build
 WORKDIR /app
 
 COPY pom.xml .
+
 RUN mvn dependency:go-offline
 
 COPY . .
