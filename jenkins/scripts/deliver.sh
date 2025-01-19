@@ -27,8 +27,8 @@ java -jar target/${NAME}-${VERSION}.jar
 
 # --- Docker build and deployment section ---
 
-echo 'Building Docker image...'
-docker build -t java-app .
+#echo 'Building Docker image...'
+#docker build -t java-app .
 
 echo 'Checking if Railway CLI is installed...'
 if ! [ -x "$(command -v railway)" ]; then
@@ -38,17 +38,17 @@ else
   echo 'Railway CLI is already installed.'
 fi
 
-# Login to Railway using the token (assuming RAILWAY_TOKEN is set in Jenkins environment)
-echo 'Logging in to Railway...'
-railway login --token $RAILWAY_TOKEN
+## Login to Railway using the token (assuming RAILWAY_TOKEN is set in Jenkins environment)
+#echo 'Logging in to Railway...'
+#railway login --token $RAILWAY_TOKEN
 
-echo 'Linking to Railway project...'
-railway link -p $RAILWAY_PROJECT
+#echo 'Linking to Railway project...'
+#railway link -p $RAILWAY_PROJECT
 
-echo 'Pushing Docker image to Railway...'
-railway container push java-app
+#echo 'Pushing Docker image to Railway...'
+#railway container push java-app
 
 echo 'Deploying application to Railway...'
-railway up
+RAILWAY_TOKEN=$PROJECT_TOKEN railway up
 
 echo 'Deployment to Railway completed successfully.'
