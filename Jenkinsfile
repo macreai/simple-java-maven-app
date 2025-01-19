@@ -15,7 +15,9 @@ node {
         }
 
         stage('Deliver') {
-            sh './jenkins/scripts/deliver.sh'
+            withCredentials([string(credentialsId: 'PROJECT_TOKEN', variable: 'PROJECT_TOKEN')]) {
+                sh './jenkins/scripts/deliver.sh'
+            }
             sleep time: 1, unit: 'MINUTES'
         }
     }
