@@ -49,6 +49,6 @@ fi
 #railway container push java-app
 
 echo 'Deploying application to Railway...'
-RAILWAY_TOKEN=$PROJECT_TOKEN railway redeploy
+RAILWAY_TOKEN=$PROJECT_TOKEN railway redeploy --service devoted-forgiveness
 
 echo 'Deployment to Railway completed successfully.'
