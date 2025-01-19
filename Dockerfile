@@ -1,21 +1,15 @@
+#
+# Build stage
+#
 FROM maven:3.9.2-openjdk-17-slim AS build
+COPY src /home/app/src
+COPY pom.xml /home/app
+RUN mvn -f /home/app/pom.xml clean package
 
-WORKDIR /app
-
-COPY pom.xml .
-
-RUN mvn dependency:go-offline
-
-COPY . .
-
-RUN mvn -B -DskipTests clean package
-
+#
+# Package stage
+#
 FROM openjdk:17-jdk-slim
-
-WORKDIR /app
-
-COPY --from=build /app/target/*.jar app.jar
-
+COPY --from=build /home/app/target/*.jar /usr/local/lib/app.jar
 EXPOSE 8080
-
-CMD ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-jar", "/usr/local/lib/app.jar"]
