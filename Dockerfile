@@ -4,8 +4,8 @@ WORKDIR /app
 
 COPY . ./
 
-RUN chmod +x mvnw && ./mvnw -DoutputFile=target/mvn-dependency-list.log -B -DskipTests clean dependency:list install
+RUN chmod +x mvnw && ./mvnw -B -DskipTests clean package
 
 EXPOSE 8080
 
-CMD ["sh", "-c", "java -jar target/*.jar"]
+CMD ["java", "-jar", "target/*.jar"]
